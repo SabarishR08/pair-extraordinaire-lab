@@ -1,0 +1,13 @@
+#!/bin/sh
+# prepare-commit-msg hook
+# Automatically appends Co-authored-by trailer if GIT_PAIR_PARTNER is set.
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+
+if [ -n "$GIT_PAIR_PARTNER" ]; then
+    if ! grep -q "^Co-authored-by:" "$COMMIT_MSG_FILE"; then
+        echo "" >> "$COMMIT_MSG_FILE"
+        echo "Co-authored-by: $GIT_PAIR_PARTNER" >> "$COMMIT_MSG_FILE"
+    fi
+fi
